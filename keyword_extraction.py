@@ -11,7 +11,7 @@ sns.set()
 from sklearn.decomposition import PCA
 
 
-class UnsupervisedKeywordExtraction:
+class EmbedRankTransformers:
     """Implementation of unsupervised keyword extraction method using DNN embeddings and MMR. This method tries to
     Find important keywords in text using analysis of their cosine similarity to original text and using Maximum
     Marginal Relevance method to choose most relevant and also diverse keywords.

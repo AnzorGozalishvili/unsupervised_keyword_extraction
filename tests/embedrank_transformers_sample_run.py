@@ -1,19 +1,19 @@
 import spacy
 from bert_serving.client import BertClient
 
-from keyword_extraction import UnsupervisedKeywordExtraction
+from model.embedrank_transformers import EmbedRankTransformers
 
 if __name__ == '__main__':
     bc = BertClient(output_fmt='list')
     nlp = spacy.load("en_core_web_lg", disable=['ner'])
 
-    fi = UnsupervisedKeywordExtraction(nlp=nlp,
-                                   dnn=bc,
-                                   perturbation='replacement',
-                                   emb_method='subtraction',
-                                   mmr_beta=0.55,
-                                   top_n=10,
-                                   alias_threshold=0.8)
+    fi = EmbedRankTransformers(nlp=nlp,
+                               dnn=bc,
+                               perturbation='replacement',
+                               emb_method='subtraction',
+                               mmr_beta=0.55,
+                               top_n=10,
+                               alias_threshold=0.8)
 
     text = """
     Evaluation of existing and new feature recognition algorithms. 2. Experimental
@@ -38,3 +38,5 @@ For pt.1 see ibid., p.839-851. This is the second of two papers investigating
     print(marked_target)
     print(f'Keywords: {keywords}')
     print(f'Keyword Relevance: {keyword_relevance}')
+
+    print(fi.extract_keywords(text))
