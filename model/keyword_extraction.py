@@ -5,10 +5,10 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import spacy
+from sklearn.decomposition import PCA
 from sklearn.metrics.pairwise import cosine_similarity
 
 sns.set()
-from sklearn.decomposition import PCA
 
 
 class EmbedRankTransformers:

@@ -120,8 +120,7 @@ if __name__ == '__main__':
     ListOfDatasets = ['Inspec']
 
     # ListOfAlgorithms = ['RAKE', 'YAKE', 'MultiPartiteRank', 'TopicalPageRank', 'TopicRank', 'SingleRank', 'TextRank', 'KPMiner', 'TFIDF', 'KEA']
-    # ListOfAlgorithms = ['YAKE', 'EmbedRankTransformers']
-    ListOfAlgorithms = ['EmbedRankTransformers']
+    ListOfAlgorithms = ['RAKE', 'YAKE', 'EmbedRankTransformers']
 
     pathData = 'data'
     pathOutput = pathData + "/conversor/output/"
@@ -132,7 +131,7 @@ if __name__ == '__main__':
 
     statistical_test = ["student"]  # wilcoxon
 
-    measures = ['map', 'P.5']
+    measures = ['map', 'P.5', 'F1']
 
     formatOutput = 'df'  # options: 'csv', 'html', 'json', 'latex', 'sql', 'string', 'df'
     # ------------------------------------------------------------------------------------------------------------------

@@ -7,8 +7,9 @@ import seaborn as sns
 import spacy
 from sklearn.metrics.pairwise import cosine_similarity
 
-sns.set()
 from sklearn.decomposition import PCA
+
+sns.set()
 
 
 class EmbedRankTransformers:
