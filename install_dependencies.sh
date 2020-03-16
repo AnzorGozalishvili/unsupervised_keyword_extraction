@@ -6,10 +6,14 @@ python -m spacy download en
 python -m spacy download en_core_web_lg
 
 # build trec_eval
-git clone git@github.com:usnistgov/trec_eval.git
+git clone https://github.com/usnistgov/trec_eval.git
 cd trec_eval
+# replace BIN variable which is path to binary where trec_eval should be installed
+bin_path=$(which pip | sed 's+/pip++g')
+sed -i "s+BIN = /usr/local/bin+BIN = $n+g" Makefile
 make install
 cd ..
 rm -rf trec_eval
 
+# install requirements file
 pip install -r requirements.txt
