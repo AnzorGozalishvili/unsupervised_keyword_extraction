@@ -1,8 +1,5 @@
 import nltk
-import spacy
-import stanfordnlp
 from nltk.corpus import stopwords
-from spacy_stanfordnlp import StanfordNLPLanguage
 
 
 class PhraseExtractor:
