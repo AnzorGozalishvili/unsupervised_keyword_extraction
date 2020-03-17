@@ -14,7 +14,7 @@
     "class": "PhraseExtractor",
     "kwargs": {
       "grammar": "GRAMMAR1",
-      "np_method": "NOUN_CHUNKS",
+      "np_method": "GRAMMAR",
       "np_tags": "NLTK",
       "stopwords": "NLTK"
     }

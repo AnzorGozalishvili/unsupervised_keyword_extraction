@@ -117,10 +117,11 @@ if __name__ == '__main__':
     #                   'fao30', 'fao780', 'Inspec', 'kdd', 'Krapivin2009',
     #                   'Nguyen2007', 'pak2018', 'PubMed', 'Schutz2008', 'SemEval2010',
     #                   'SemEval2017', 'theses100', 'wiki20', 'www', 'cacic', 'wicc', 'WikiNews']
-    ListOfDatasets = ['Inspec']
+    ListOfDatasets = ['Inspec', 'SemEval2017']
 
-    # ListOfAlgorithms = ['RAKE', 'YAKE', 'MultiPartiteRank', 'TopicalPageRank', 'TopicRank', 'SingleRank', 'TextRank', 'KPMiner', 'TFIDF', 'KEA']
-    ListOfAlgorithms = ['RAKE', 'YAKE', 'EmbedRankTransformers']
+    ListOfAlgorithms = ['RAKE', 'YAKE', 'MultiPartiteRank', 'TopicalPageRank', 'TopicRank', 'SingleRank', 'TextRank', 'KPMiner', 'TFIDF', 'KEA']
+    # ListOfAlgorithms = ['YAKE', 'RAKE','EmbedRankTransformers']
+    # ListOfAlgorithms = ['MultiPartiteRank', 'TopicalPageRank', 'TopicRank', 'SingleRank', 'TextRank', 'KPMiner', 'TFIDF', 'KEA']
 
     pathData = 'data'
     pathOutput = pathData + "/conversor/output/"
@@ -131,13 +132,13 @@ if __name__ == '__main__':
 
     statistical_test = ["student"]  # wilcoxon
 
-    measures = ['map', 'P.5', 'F1']
+    measures = ['map', 'P.5','P.10', 'F1']
 
     formatOutput = 'df'  # options: 'csv', 'html', 'json', 'latex', 'sql', 'string', 'df'
     # ------------------------------------------------------------------------------------------------------------------
 
     # ------------------------------------------------------------------------------------------------------------------
-    # run keyword extraction
+    #run keyword extraction
     # ------------------------------------------------------------------------------------------------------------------
     keyword_extraction()
 

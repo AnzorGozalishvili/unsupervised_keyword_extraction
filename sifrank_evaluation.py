@@ -38,6 +38,7 @@ if __name__ == '__main__':
     lamda = 0.0
 
     database1 = "Inspec"
+    database2 = "Duc2001"
     database3 = "Semeval2017"
 
     database = database1
@@ -46,6 +47,10 @@ if __name__ == '__main__':
         data, labels = fileIO.get_inspec_data()
         lamda = 0.6
         elmo_layers_weight = [0.0, 1.0, 0.0]
+    elif(database == "Duc2001"):
+        data, labels = fileIO.get_duc2001_data()
+        lamda = 1.0
+        elmo_layers_weight = [1.0, 0.0, 0.0]
     else:
         data, labels = fileIO.get_semeval2017_data()
         lamda = 0.6
