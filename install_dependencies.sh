@@ -17,3 +17,8 @@ rm -rf trec_eval
 
 # install requirements file
 pip install -r requirements.txt
+
+# download models
+wget http://www.ccc.ipt.pt/~ricardo/keep/standalone/data.zip
+unzip data.zip
+rm data.zip
