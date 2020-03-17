@@ -1,10 +1,9 @@
 import os
 
-import spacy
-from bert_serving.client import BertClient
 from keep.utility import getlanguage, CreateKeywordsFolder, LoadFiles, Convert2TrecEval
 
-from model.embedrank_transformers import EmbedRankTransformers as ERT
+from helpers import read_json
+from keyword_extraction.helpers import init_keyword_extractor
 
 
 class EmbedRankTransformers(object):
@@ -21,13 +20,7 @@ class EmbedRankTransformers(object):
         self.__algorithmName = "EmbedRankTransformers"
 
         # initialize EmbedRankTransformers object
-        self.model = ERT(nlp=spacy.load("en_core_web_lg", disable=['ner']),
-                         dnn=BertClient(output_fmt='list'),
-                         perturbation='replacement',
-                         emb_method='naive',
-                         mmr_beta=0.55,
-                         top_n=numOfKeywords,
-                         alias_threshold=0.8)
+        self.model = init_keyword_extractor(read_json('evaluation/config/keyword_extractor_config.json'))
 
     def LoadDatasetFiles(self):
         # Gets all files within the dataset fold
@@ -47,7 +40,8 @@ class EmbedRankTransformers(object):
                 doc_text = doc_reader.read()
 
             # extract keywords
-            keywords = self.model.extract_keywords(doc_text)
+            keywords, relevance = self.model.run(doc_text)
+            keywords = [(keyword, score) for (keyword, _, _), score in zip(keywords, relevance)]
         except:
             keywords = []
 
