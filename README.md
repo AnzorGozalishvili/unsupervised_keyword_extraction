@@ -101,17 +101,334 @@ You can evaluate model on many different datasets using script bellow. See [here
 python -m run_evaluation
 ```
 
-### 6. TrecEval Scores (Inspec)
-```bash
-Running Evaluation for Inspec dataset
-                                app        F1_all           P_5       map_all
-0                   Inspec_RAKE.out  0.147000 bl   0.274400 bl   0.116900 bl 
-1                   Inspec_YAKE.out   0.136600 ▼    0.249200 ▼    0.103100 ▼ 
-2  Inspec_EmbedRankTransformers.out   0.128300 ▼    0.238400 ▼    0.093400 ▼ 
+### 6. TrecEval Score Results
+```html
+----------------------------------------------------------------------------------------
+Running Evaluation for [1mInspec[0m dataset
+<table border="1" class="dataframe">
+    <thead>
+    <tr style="text-align: right;">
+        <th></th>
+        <th>app</th>
+        <th>F1_10</th>
+        <th>F1_15</th>
+        <th>F1_5</th>
+        <th>P_10</th>
+        <th>P_15</th>
+        <th>P_5</th>
+        <th>map_10</th>
+        <th>map_15</th>
+        <th>map_5</th>
+        <th>recall_10</th>
+        <th>recall_15</th>
+        <th>recall_5</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>0</th>
+        <td>Inspec_RAKE.out</td>
+        <td>0.206600 bl</td>
+        <td>0.220100 bl</td>
+        <td>0.152400 bl</td>
+        <td>0.250400 bl</td>
+        <td>0.216900 bl</td>
+        <td>0.282300 bl</td>
+        <td>0.100100 bl</td>
+        <td>0.115100 bl</td>
+        <td>0.070500 bl</td>
+        <td>0.188100 bl</td>
+        <td>0.236900 bl</td>
+        <td>0.110300 bl</td>
+    </tr>
+    <tr>
+        <th>1</th>
+        <td>Inspec_YAKE.out</td>
+        <td>0.176300 ▼</td>
+        <td>0.187700 ▼</td>
+        <td>0.144500 ▼</td>
+        <td>0.208300 ▼</td>
+        <td>0.181400 ▼</td>
+        <td>0.261700 ▼</td>
+        <td>0.092000 ▼</td>
+        <td>0.104000 ▼</td>
+        <td>0.072700</td>
+        <td>0.165800 ▼</td>
+        <td>0.214100 ▼</td>
+        <td>0.105400 ᐁ</td>
+    </tr>
+    <tr>
+        <th>2</th>
+        <td>Inspec_MultiPartiteRank.out</td>
+        <td>0.186600 ▼</td>
+        <td>0.201300 ▼</td>
+        <td>0.156000</td>
+        <td>0.221000 ▼</td>
+        <td>0.190600 ▼</td>
+        <td>0.285600</td>
+        <td>0.101700</td>
+        <td>0.114100</td>
+        <td>0.081100 ▲</td>
+        <td>0.171200 ▼</td>
+        <td>0.216600 ▼</td>
+        <td>0.113000</td>
+    </tr>
+    <tr>
+        <th>3</th>
+        <td>Inspec_TopicalPageRank.out</td>
+        <td>0.226800 ▲</td>
+        <td>0.241000 ▲</td>
+        <td>0.174100 ▲</td>
+        <td>0.272700 ▲</td>
+        <td>0.233700 ▲</td>
+        <td>0.319600 ▲</td>
+        <td>0.116500 ▲</td>
+        <td>0.133500 ▲</td>
+        <td>0.084200 ▲</td>
+        <td>0.206600 ▲</td>
+        <td>0.257900 ▲</td>
+        <td>0.126100 ▲</td>
+    </tr>
+    <tr>
+        <th>4</th>
+        <td>Inspec_TopicRank.out</td>
+        <td>0.177900 ▼</td>
+        <td>0.186800 ▼</td>
+        <td>0.149000</td>
+        <td>0.211100 ▼</td>
+        <td>0.175300 ▼</td>
+        <td>0.272300</td>
+        <td>0.093800 ▼</td>
+        <td>0.103000 ▼</td>
+        <td>0.075100 ᐃ</td>
+        <td>0.161300 ▼</td>
+        <td>0.195600 ▼</td>
+        <td>0.107800</td>
+    </tr>
+    <tr>
+        <th>5</th>
+        <td>Inspec_SingleRank.out</td>
+        <td>0.224200 ▲</td>
+        <td>0.237900 ▲</td>
+        <td>0.170900 ▲</td>
+        <td>0.269600 ▲</td>
+        <td>0.231400 ▲</td>
+        <td>0.313500 ▲</td>
+        <td>0.114400 ▲</td>
+        <td>0.131200 ▲</td>
+        <td>0.082600 ▲</td>
+        <td>0.204800 ▲</td>
+        <td>0.256300 ▲</td>
+        <td>0.123800 ▲</td>
+    </tr>
+    <tr>
+        <th>6</th>
+        <td>Inspec_TextRank.out</td>
+        <td>0.123500 ▼</td>
+        <td>0.127200 ▼</td>
+        <td>0.097500 ▼</td>
+        <td>0.140900 ▼</td>
+        <td>0.106500 ▼</td>
+        <td>0.177800 ▼</td>
+        <td>0.050600 ▼</td>
+        <td>0.052900 ▼</td>
+        <td>0.040900 ▼</td>
+        <td>0.102100 ▼</td>
+        <td>0.113100 ▼</td>
+        <td>0.068900 ▼</td>
+    </tr>
+    <tr>
+        <th>7</th>
+        <td>Inspec_EmbedRankTransformers.out</td>
+        <td>0.231000 ▲</td>
+        <td>0.231000 ▲</td>
+        <td>0.175300 ▲</td>
+        <td>0.278600 ▲</td>
+        <td>0.185700 ▼</td>
+        <td>0.328400 ▲</td>
+        <td>0.117400 ▲</td>
+        <td>0.117400</td>
+        <td>0.084900 ▲</td>
+        <td>0.206500 ▲</td>
+        <td>0.206500 ▼</td>
+        <td>0.125900 ▲</td>
+    </tr>
+    </tbody>
+</table>
+
+
+----------------------------------------------------------------------------------------
+Running Evaluation for [1mSemEval2017[0m dataset
+<table border="1" class="dataframe">
+    <thead>
+    <tr style="text-align: right;">
+        <th></th>
+        <th>app</th>
+        <th>F1_10</th>
+        <th>F1_15</th>
+        <th>F1_5</th>
+        <th>P_10</th>
+        <th>P_15</th>
+        <th>P_5</th>
+        <th>map_10</th>
+        <th>map_15</th>
+        <th>map_5</th>
+        <th>recall_10</th>
+        <th>recall_15</th>
+        <th>recall_5</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>0</th>
+        <td>SemEval2017_RAKE.out</td>
+        <td>0.216700 bl</td>
+        <td>0.246500 bl</td>
+        <td>0.140200 bl</td>
+        <td>0.299600 bl</td>
+        <td>0.272200 bl</td>
+        <td>0.309500 bl</td>
+        <td>0.093700 bl</td>
+        <td>0.114600 bl</td>
+        <td>0.058200 bl</td>
+        <td>0.179000 bl</td>
+        <td>0.240200 bl</td>
+        <td>0.093700 bl</td>
+    </tr>
+    <tr>
+        <th>1</th>
+        <td>SemEval2017_YAKE.out</td>
+        <td>0.171900 ▼</td>
+        <td>0.199500 ▼</td>
+        <td>0.114000 ▼</td>
+        <td>0.235900 ▼</td>
+        <td>0.219300 ▼</td>
+        <td>0.249100 ▼</td>
+        <td>0.073400 ▼</td>
+        <td>0.088400 ▼</td>
+        <td>0.049900 ▼</td>
+        <td>0.143300 ▼</td>
+        <td>0.196300 ▼</td>
+        <td>0.076600 ▼</td>
+    </tr>
+    <tr>
+        <th>2</th>
+        <td>SemEval2017_MultiPartiteRank.out</td>
+        <td>0.213100</td>
+        <td>0.238600</td>
+        <td>0.161600 ▲</td>
+        <td>0.297000</td>
+        <td>0.264200</td>
+        <td>0.358600 ▲</td>
+        <td>0.106400 ▲</td>
+        <td>0.125700 ᐃ</td>
+        <td>0.077000 ▲</td>
+        <td>0.175600</td>
+        <td>0.231900</td>
+        <td>0.108100 ▲</td>
+    </tr>
+    <tr>
+        <th>3</th>
+        <td>SemEval2017_TopicalPageRank.out</td>
+        <td>0.253100 ▲</td>
+        <td>0.289400 ▲</td>
+        <td>0.173000 ▲</td>
+        <td>0.350900 ▲</td>
+        <td>0.319300 ▲</td>
+        <td>0.382200 ▲</td>
+        <td>0.124600 ▲</td>
+        <td>0.152900 ▲</td>
+        <td>0.081500 ▲</td>
+        <td>0.208700 ▲</td>
+        <td>0.281400 ▲</td>
+        <td>0.115900 ▲</td>
+    </tr>
+    <tr>
+        <th>4</th>
+        <td>SemEval2017_TopicRank.out</td>
+        <td>0.203300 ᐁ</td>
+        <td>0.222400 ▼</td>
+        <td>0.159600 ▲</td>
+        <td>0.285600</td>
+        <td>0.247600 ▼</td>
+        <td>0.357800 ▲</td>
+        <td>0.100500</td>
+        <td>0.116500</td>
+        <td>0.075300 ▲</td>
+        <td>0.166300 ᐁ</td>
+        <td>0.213400 ▼</td>
+        <td>0.106200 ▲</td>
+    </tr>
+    <tr>
+        <th>5</th>
+        <td>SemEval2017_SingleRank.out</td>
+        <td>0.248100 ▲</td>
+        <td>0.286300 ▲</td>
+        <td>0.170000 ▲</td>
+        <td>0.343800 ▲</td>
+        <td>0.316400 ▲</td>
+        <td>0.373200 ▲</td>
+        <td>0.120700 ▲</td>
+        <td>0.149300 ▲</td>
+        <td>0.078600 ▲</td>
+        <td>0.204500 ▲</td>
+        <td>0.278000 ▲</td>
+        <td>0.114000 ▲</td>
+    </tr>
+    <tr>
+        <th>6</th>
+        <td>SemEval2017_TextRank.out</td>
+        <td>0.132800 ▼</td>
+        <td>0.149300 ▼</td>
+        <td>0.091300 ▼</td>
+        <td>0.185000 ▼</td>
+        <td>0.158400 ▼</td>
+        <td>0.206500 ▼</td>
+        <td>0.050100 ▼</td>
+        <td>0.057100 ▼</td>
+        <td>0.035400 ▼</td>
+        <td>0.107000 ▼</td>
+        <td>0.134700 ▼</td>
+        <td>0.060700 ▼</td>
+    </tr>
+    <tr>
+        <th>7</th>
+        <td>SemEval2017_EmbedRankTransformers.out</td>
+        <td>0.249400 ▲</td>
+        <td>0.249400</td>
+        <td>0.165700 ▲</td>
+        <td>0.345400 ▲</td>
+        <td>0.230300 ▼</td>
+        <td>0.370400 ▲</td>
+        <td>0.117400 ▲</td>
+        <td>0.117400</td>
+        <td>0.076000 ▲</td>
+        <td>0.204200 ▲</td>
+        <td>0.204200 ▼</td>
+        <td>0.110300 ▲</td>
+    </tr>
+    </tbody>
+</table>
 
 ```
 
+### 7. SIFRank Evaluation Scores 
+F1 Scores on `N=5` (first N extracted keywords)
 
+| Models       | Inspec       | SemEval2017   | DUC2001      |
+| :-----       | :----:       | :----:        |:----:        |
+| TFIDF        | 11.28        | 12.70         |  9.21        |
+| YAKE         | 15.73        | 11.84         | 10.61        |
+| TextRank     | 24.39        | 16.43         | 13.94        |
+| SingleRank   | 24.69        | 18.23         | 21.56        |
+| TopicRank    | 22.76        | 17.10         | 20.37        |
+| PositionRank | 25.19        | 18.23         | 24.95        |
+| Multipartite | 23.05        | 17.39         | 21.86        |
+| RVA          | 21.91        | 19.59         | 20.32        |
+| **Model_v1** |`23.31`       | `14.60`       | N/A          |
+| EmbedRank d2v| 27.20        | 20.21         | 21.74        |
+| SIFRank      | **29.11**    | **22.59**     | 24.27        |
+| SIFRank+     | 28.49        | 21.53         | **30.88**    |
 
 
 ## References
