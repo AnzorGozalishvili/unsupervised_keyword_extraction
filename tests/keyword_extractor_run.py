@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     # Phrase Extractors Definition
     spacy_native = PhraseExtractor(nlp, np_method='NOUN_CHUNKS')
-    spacy_grammar = PhraseExtractor(nlp, grammar='GRAMMAR1', np_method='NOUN_CHUNKS', np_tags='NLTK', stopwords='NLTK')
+    spacy_grammar = PhraseExtractor(nlp, grammar='GRAMMAR1', np_method='GRAMMAR', np_tags='NLTK', stopwords='NLTK')
     corenlp_grammar = PhraseExtractor(corenlp, grammar='GRAMMAR1', np_method='NOUN_CHUNKS', np_tags='NLTK',
                                       stopwords='NLTK')
 
