@@ -2,15 +2,19 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Sponge"
 # Date: 2019/6/25
-from keyword_extraction.helpers import init_keyword_extractor
-from helpers import read_json
-import nltk
-from utils import fileIO
+import json
 import time
 
+import nltk
+import pandas as pd
+import requests
 
-def get_PRF(num_c, num_e, num_s):
-    F1 = 0.0
+from helpers import read_json
+from keyword_extraction.helpers import init_keyword_extractor
+from utils import fileIO
+
+
+def calculate_scores(num_c, num_e, num_s):
     P = float(num_c) / float(num_e)
     R = float(num_c) / float(num_s)
     if (P + R == 0.0):
@@ -20,34 +24,85 @@ def get_PRF(num_c, num_e, num_s):
     return P, R, F1
 
 
-def print_PRF(P, R, F1, N):
-    print("\nN=" + str(N), end="\n")
-    print("P=" + str(P), end="\n")
-    print("R=" + str(R), end="\n")
-    print("F1=" + str(F1))
-    return 0
+def scores_to_dict(P, R, F1, N):
+    return {
+        f"P.{N}": P,
+        f"R.{N}": R,
+        f"F1.{N}": F1
+    }
 
 
-if __name__ == '__main__':
-    time_start = time.time()
+def generate_scores_table(model_names, model_scores):
+    table = pd.DataFrame(model_scores, index=model_names)
+    return table
 
-    P = R = F1 = 0.0
-    num_c_5 = num_c_10 = num_c_15 = 0
-    num_e_5 = num_e_10 = num_e_15 = 0
-    num_s = 0
-    lamda = 0.0
 
-    database1 = "Inspec"
-    database2 = "Duc2001"
-    database3 = "Semeval2017"
+def save_scores(scores, path, format='csv'):
+    with open(path, 'w') as file:
+        if format == "csv":
+            for dataset_name, scores_table in scores.items():
+                file.write(f"Evaluation results on {dataset_name}: {dataset_name}")
+                file.write(scores_table.to_csv())
+        elif format == 'json':
+            scores_dict = {
+                dataset_name: scores.to_dict(orient='index') for dataset_name, scores in scores.items()
+            }
+            json.dump(scores_dict, file)
 
-    database = database1
 
-    if (database == "Inspec"):
+class EmbedRankWrapper:
+    def __init__(self, url=None):
+        self.url = url or "http://0.0.0.0:5000"
+
+    def run(self, text, top_n=15):
+        url = f"{self.url}?q={text}&n={top_n}"
+        result = requests.get(url)
+        content = json.loads(result.content)
+        keywords = [(keyword, score) for keyword, score in zip(content[0], content[1])]
+
+        return keywords
+
+
+class EmbedRankTransformersWrapper:
+    def __init__(self, config_path=None):
+        self.conf_path = config_path or 'evaluation/config/keyword_extractor_config.json'
+        self.model = init_keyword_extractor(read_json(self.conf_path))
+
+    def run(self, text, top_n=15):
+        keywords, relevance = self.model.run(text)
+        keywords = [(keyword, score) for (keyword, _, _), score in zip(keywords, relevance)]
+
+        return keywords
+
+
+class SIFRankWrapper:
+    def __init__(self, url=None):
+        self.url = url or "http://0.0.0.0:5001"
+
+    def run(self, text, top_n=15):
+        url = f"{self.url}?q={text}&n={top_n}"
+        result = requests.get(url)
+        content = json.loads(result.content)
+        keywords = [(keyword, score) for keyword, score in zip(content[0], content[1])]
+
+        return keywords
+
+
+def get_model(model_name, **kwargs):
+    if model_name == 'EmbedRankTransformers':
+        return EmbedRankTransformersWrapper(**kwargs)
+    elif model_name == 'EmbedRank':
+        return EmbedRankWrapper(**kwargs)
+    elif model_name == 'SIFRank':
+        return SIFRankWrapper(**kwargs)
+
+
+def get_dataset(dataset_name):
+    if dataset_name == "Inspec":
         data, labels = fileIO.get_inspec_data()
         lamda = 0.6
         elmo_layers_weight = [0.0, 1.0, 0.0]
-    elif(database == "Duc2001"):
+    elif dataset_name == "Duc2001":
         data, labels = fileIO.get_duc2001_data()
         lamda = 1.0
         elmo_layers_weight = [1.0, 0.0, 0.0]
@@ -56,9 +111,24 @@ if __name__ == '__main__':
         lamda = 0.6
         elmo_layers_weight = [1.0, 0.0, 0.0]
 
+    return data, labels, lamda, elmo_layers_weight
+
+
+def evaluate(model_name, dataset_name, model_params):
+    time_start = time.time()
+
+    P = R = F1 = 0.0
+    num_c_5 = num_c_10 = num_c_15 = 0
+    num_e_5 = num_e_10 = num_e_15 = 0
+    num_s = 0
+    lamda = 0.0
+
+    data, labels, lamda, elmo_layers_weight = get_dataset(dataset_name)
+
     porter = nltk.PorterStemmer()  # please download nltk
 
-    embed_rank = init_keyword_extractor(read_json('evaluation/config/keyword_extractor_config.json'))
+    model = get_model(model_name, **model_params)
+
     for key, data in data.items():
 
         lables = labels[key]
@@ -68,10 +138,7 @@ if __name__ == '__main__':
             tokens = lable.split()
             lables_stemed.append(' '.join(porter.stem(t) for t in tokens))
 
-        print(key)
-
-        keywords, relevance = embed_rank.run(data)
-        keywords = [(keyword, score) for (keyword, _, _), score in zip(keywords, relevance)]
+        keywords = model.run(data)
 
         j = 0
         for temp in keywords[0:15]:
@@ -108,12 +175,58 @@ if __name__ == '__main__':
 
         num_s += len(labels[key])
 
-    p, r, f = get_PRF(num_c_5, num_e_5, num_s)
-    print_PRF(p, r, f, 5)
-    p, r, f = get_PRF(num_c_10, num_e_10, num_s)
-    print_PRF(p, r, f, 10)
-    p, r, f = get_PRF(num_c_15, num_e_15, num_s)
-    print_PRF(p, r, f, 15)
+    p, r, f = calculate_scores(num_c_5, num_e_5, num_s)
+    scores_5 = scores_to_dict(p, r, f, 5)
+    p, r, f = calculate_scores(num_c_10, num_e_10, num_s)
+    scores_10 = scores_to_dict(p, r, f, 10)
+    p, r, f = calculate_scores(num_c_15, num_e_15, num_s)
+    scores_15 = scores_to_dict(p, r, f, 15)
 
-    time_end = time.time()
-    print('totally cost', time_end - time_start)
+    scores = {
+        **scores_5,
+        **scores_10,
+        **scores_15,
+        "time": time.time() - time_start
+    }
+
+    return scores
+
+
+if __name__ == '__main__':
+    model_names = [
+        "EmbedRankTransformers",
+        "EmbedRank",
+        "SIFRank"
+    ]
+
+    model_params = [
+        {"config_path": 'evaluation/config/keyword_extractor_config.json'},
+        {"url": "http://0.0.0.0:5000"},
+        {"url": "http://0.0.0.0:5001"}
+    ]
+
+    dataset_names = [
+        "Inspec",
+        "Duc2001",
+        "Semeval2017"
+    ]
+
+    scores_path = "sifrank_eval_results.csv"
+    scores_format = "csv"
+
+    scores = {}
+
+    for dataset_name in dataset_names:
+        evaluated_models = []
+        evaluated_model_scores = []
+
+        for model_name, model_params in zip(model_names, model_params):
+            model_scores = evaluate(model_name, dataset_name, model_params)
+            evaluated_model_scores.append(model_scores)
+            evaluated_models.append(model_name)
+
+        scores_table = generate_scores_table(evaluated_models, evaluated_model_scores)
+
+        scores[dataset_name] = scores_table
+
+    save_scores(scores, scores_path, scores_format)
