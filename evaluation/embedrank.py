@@ -1,5 +1,5 @@
 import os
-
+import json
 import requests
 from keep.utility import getlanguage, CreateKeywordsFolder, LoadFiles, Convert2TrecEval
 
@@ -37,7 +37,8 @@ class EmbedRank(object):
             # extract keywords
             url = f"http://0.0.0.0:5000?q={doc_text}&n={self.__numOfKeywords}"
             result = requests.get(url)
-            keywords = [(keyword, score) for (keyword, _, _), score in zip(result[0], result[1])]
+            content = json.loads(result.content)
+            keywords = [(keyword, score) for (keyword, _, _), score in zip(content[0], content[1])]
         except:
             keywords = []
 
