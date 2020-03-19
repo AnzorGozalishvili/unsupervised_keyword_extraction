@@ -4,6 +4,7 @@
 # Date: 2019/6/25
 import json
 import time
+import tqdm
 
 import nltk
 import pandas as pd
@@ -129,7 +130,7 @@ def evaluate(model_name, dataset_name, model_params):
 
     model = get_model(model_name, **model_params)
 
-    for key, data in data.items():
+    for key, data in tqdm.tqdm(data.items(), desc=f"Run {model_name} on {dataset_name} records..."):
 
         lables = labels[key]
         lables_stemed = []
