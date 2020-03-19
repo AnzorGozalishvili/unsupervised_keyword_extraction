@@ -35,7 +35,8 @@ class EmbedRank(object):
                 doc_text = doc_reader.read()
 
             # extract keywords
-            result = requests.get("http://0.0.0.0:5000", q=doc_text, n=self.__numOfKeywords)
+            url = f"http://0.0.0.0:5000?q={doc_text}&n={self.__numOfKeywords}"
+            result = requests.get(url)
             keywords = [(keyword, score) for (keyword, _, _), score in zip(result[0], result[1])]
         except:
             keywords = []
