@@ -38,7 +38,7 @@ class EmbedRank(object):
             url = f"http://0.0.0.0:5000?q={doc_text}&n={self.__numOfKeywords}"
             result = requests.get(url)
             content = json.loads(result.content)
-            keywords = [(keyword, score) for (keyword, _, _), score in zip(content[0], content[1])]
+            keywords = [(keyword, score) for keyword, score in zip(content[0], content[1])]
         except:
             keywords = []
 
