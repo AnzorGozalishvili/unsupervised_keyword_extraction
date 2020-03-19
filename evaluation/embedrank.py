@@ -13,9 +13,9 @@ class EmbedRank(object):
         self.__pathData = pathData
         self.__pathToDFFile = self.__pathData + "/Models/Unsupervised/dfs/" + self.__dataset_name + '_dfs.gz'
         self.__pathToDatasetName = self.__pathData + "/Datasets/" + self.__dataset_name
-        self.__keywordsPath = self.__pathData + '/Keywords/EmbedRankTransformers/' + self.__dataset_name
+        self.__keywordsPath = self.__pathData + '/Keywords/EmbedRank/' + self.__dataset_name
         self.__outputPath = self.__pathData + "/conversor/output/"
-        self.__algorithmName = "EmbedRankTransformers"
+        self.__algorithmName = "EmbedRank"
 
     def LoadDatasetFiles(self):
         # Gets all files within the dataset fold
