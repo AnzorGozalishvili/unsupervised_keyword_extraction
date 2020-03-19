@@ -15,6 +15,7 @@ from keep import TopicalPageRank
 from keep import YAKE
 
 from evaluation.embedrank_transformers import EmbedRankTransformers as ERT
+from evaluation.embedrank import EmbedRank as ER
 
 
 def keyword_extraction():
@@ -77,6 +78,10 @@ def keyword_extraction():
                 ERT_object = ERT(numOfKeyphrases, pathData, dataset_name, normalization)
                 ERT_object.ExtractKeyphrases()
                 ERT_object.Convert2Trec_Eval(EvaluationStemming)
+            elif algorithm == 'EmbedRank':
+                ER_object = ER(numOfKeyphrases, pathData, dataset_name, normalization)
+                ER_object.ExtractKeyphrases()
+                ER_object.Convert2Trec_Eval(EvaluationStemming)
 
 
 def evaluation():
@@ -119,7 +124,8 @@ if __name__ == '__main__':
     #                   'SemEval2017', 'theses100', 'wiki20', 'www', 'cacic', 'wicc', 'WikiNews']
     ListOfDatasets = ['Inspec', 'SemEval2017']
 
-    ListOfAlgorithms = ['RAKE', 'YAKE', 'MultiPartiteRank', 'TopicalPageRank', 'TopicRank', 'SingleRank', 'TextRank', 'KPMiner', 'TFIDF', 'KEA']
+    ListOfAlgorithms = ['RAKE', 'YAKE', 'MultiPartiteRank', 'TopicalPageRank', 'TopicRank', 'SingleRank', 'TextRank',
+                        'KPMiner', 'TFIDF', 'KEA']
     # ListOfAlgorithms = ['YAKE', 'RAKE','EmbedRankTransformers']
     # ListOfAlgorithms = ['MultiPartiteRank', 'TopicalPageRank', 'TopicRank', 'SingleRank', 'TextRank', 'KPMiner', 'TFIDF', 'KEA']
 
@@ -132,13 +138,13 @@ if __name__ == '__main__':
 
     statistical_test = ["student"]  # wilcoxon
 
-    measures = ['map', 'P.5','P.10', 'F1']
+    measures = ['map', 'P.5', 'P.10', 'F1']
 
     formatOutput = 'df'  # options: 'csv', 'html', 'json', 'latex', 'sql', 'string', 'df'
     # ------------------------------------------------------------------------------------------------------------------
 
     # ------------------------------------------------------------------------------------------------------------------
-    #run keyword extraction
+    # run keyword extraction
     # ------------------------------------------------------------------------------------------------------------------
     keyword_extraction()
 
