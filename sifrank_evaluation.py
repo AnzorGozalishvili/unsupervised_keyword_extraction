@@ -94,7 +94,7 @@ def get_model(model_name, **kwargs):
         return EmbedRankTransformersWrapper(**kwargs)
     elif model_name == 'EmbedRank':
         return EmbedRankWrapper(**kwargs)
-    elif model_name == 'SIFRank':
+    elif model_name == 'SIFRank' or 'SIFRankPlus':
         return SIFRankWrapper(**kwargs)
 
 
