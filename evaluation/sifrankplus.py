@@ -36,7 +36,7 @@ class SIFRankPlus(object):
                 doc_text = doc_reader.read()
 
             # extract keywords
-            url = f"{self.__url}?q{doc_text}&n={self.__numOfKeywords}"
+            url = f"{self.__url}?q={doc_text}&n={self.__numOfKeywords}"
             result = requests.get(url)
             content = json.loads(result.content)
             keywords = [(keyword, score) for keyword, score in zip(content[0], content[1])]
