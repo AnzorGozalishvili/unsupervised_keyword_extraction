@@ -35,6 +35,7 @@ def scores_to_dict(P, R, F1, N):
 
 def generate_scores_table(model_names, model_scores):
     table = pd.DataFrame(model_scores, index=model_names)
+    table.index.name = "Models"
     return table
 
 
@@ -42,8 +43,8 @@ def save_scores(scores, path, format='csv'):
     with open(path, 'w') as file:
         if format == "csv":
             for dataset_name, scores_table in scores.items():
-                file.write(f"Evaluation results on {dataset_name}: {dataset_name}")
-                file.write(scores_table.to_csv())
+                file.write(f"Evaluation results on \*\*{dataset_name}\*\*" + "\n")
+                file.write(scores_table.to_csv() + "\n")
         elif format == 'json':
             scores_dict = {
                 dataset_name: scores.to_dict(orient='index') for dataset_name, scores in scores.items()
@@ -211,7 +212,7 @@ if __name__ == '__main__':
 
     dataset_names = [
         "Inspec",
-#        "Duc2001",
+        #        "Duc2001",
         "Semeval2017"
     ]
 
