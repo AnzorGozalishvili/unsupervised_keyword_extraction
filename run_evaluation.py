@@ -16,6 +16,8 @@ from keep import YAKE
 
 from evaluation.embedrank_transformers import EmbedRankTransformers as ERT
 from evaluation.embedrank import EmbedRank as ER
+from evaluation.sifrank import SIFRank as SR
+from evaluation.sifrankplus import SIFRankPlus as SRP
 
 
 def keyword_extraction():
@@ -82,6 +84,14 @@ def keyword_extraction():
                 ER_object = ER(numOfKeyphrases, pathData, dataset_name, normalization)
                 ER_object.ExtractKeyphrases()
                 ER_object.Convert2Trec_Eval(EvaluationStemming)
+            elif algorithm == 'SIFRank':
+                SR_object = SR(numOfKeyphrases, pathData, dataset_name, normalization)
+                SR_object.ExtractKeyphrases()
+                SR_object.Convert2Trec_Eval(EvaluationStemming)
+            elif algorithm == 'SIFRankPlus':
+                SRP_object = SRP(numOfKeyphrases, pathData, dataset_name, normalization)
+                SRP_object.ExtractKeyphrases()
+                SRP_object.Convert2Trec_Eval(EvaluationStemming)
 
 
 def evaluation():
@@ -124,10 +134,10 @@ if __name__ == '__main__':
     #                   'SemEval2017', 'theses100', 'wiki20', 'www', 'cacic', 'wicc', 'WikiNews']
     ListOfDatasets = ['Inspec', 'SemEval2017']
 
-    ListOfAlgorithms = ['RAKE', 'YAKE', 'MultiPartiteRank', 'TopicalPageRank', 'TopicRank', 'SingleRank', 'TextRank',
-                        'KPMiner', 'TFIDF', 'KEA']
-    # ListOfAlgorithms = ['YAKE', 'RAKE','EmbedRankTransformers']
-    # ListOfAlgorithms = ['MultiPartiteRank', 'TopicalPageRank', 'TopicRank', 'SingleRank', 'TextRank', 'KPMiner', 'TFIDF', 'KEA']
+    # ListOfAlgorithms = ['RAKE', 'YAKE', 'MultiPartiteRank', 'TopicalPageRank', 'TopicRank', 'SingleRank', 'TextRank',
+    #                    'KPMiner', 'TFIDF', 'KEA', 'EmbedRank', 'EmbedRankTransformers']
+
+    ListOfAlgorithms = ['SIFRank', 'SIFRankPlus']
 
     pathData = 'data'
     pathOutput = pathData + "/conversor/output/"
@@ -138,9 +148,14 @@ if __name__ == '__main__':
 
     statistical_test = ["student"]  # wilcoxon
 
-    measures = ['map', 'P.5', 'P.10', 'F1']
+    measures = [
+        'F1.5', 'P.5', 'recall.5', 'map.5',
+        'F1.10', 'P.10', 'recall.10', 'map.10',
+        'F1.15', 'P.15', 'recall.15', 'map.15',
+        'F1', 'map'
+    ]
 
-    formatOutput = 'df'  # options: 'csv', 'html', 'json', 'latex', 'sql', 'string', 'df'
+    formatOutput = 'csv'  # options: 'csv', 'html', 'json', 'latex', 'sql', 'string', 'df'
     # ------------------------------------------------------------------------------------------------------------------
 
     # ------------------------------------------------------------------------------------------------------------------
