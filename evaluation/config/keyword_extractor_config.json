@@ -28,7 +28,7 @@
     "kwargs": {
       "emb_method": "NAIVE",
       "mmr_beta": 0.55,
-      "top_n": 10,
+      "top_n": 15,
       "alias_threshold": 0.8
     }
   }
