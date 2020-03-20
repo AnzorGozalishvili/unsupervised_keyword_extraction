@@ -115,7 +115,7 @@ def get_dataset(dataset_name):
     return data, labels, lamda, elmo_layers_weight
 
 
-def evaluate(model_name, dataset_name, model_params):
+def evaluate(model_name, dataset_name, model_kwargs):
     time_start = time.time()
 
     P = R = F1 = 0.0
@@ -128,7 +128,8 @@ def evaluate(model_name, dataset_name, model_params):
 
     porter = nltk.PorterStemmer()  # please download nltk
 
-    model = get_model(model_name, **model_params)
+    model = get_model(model_name, **model_kwargs)
+    print(f"successfully loaded {model_name} model with params {model_kwargs}")
 
     for key, data in tqdm.tqdm(data.items(), desc=f"Run {model_name} on {dataset_name} records..."):
 
@@ -197,18 +198,20 @@ if __name__ == '__main__':
     model_names = [
         "EmbedRankTransformers",
         "EmbedRank",
-        "SIFRank"
+        "SIFRank",
+        "SIFRankPlus"
     ]
 
     model_params = [
         {"config_path": 'evaluation/config/keyword_extractor_config.json'},
         {"url": "http://0.0.0.0:5000"},
-        {"url": "http://0.0.0.0:5001"}
+        {"url": "http://0.0.0.0:5001/sifrank"},
+        {"url": "http://0.0.0.0:5001/sifrankplus"}
     ]
 
     dataset_names = [
         "Inspec",
-        "Duc2001",
+#        "Duc2001",
         "Semeval2017"
     ]
 
@@ -221,8 +224,8 @@ if __name__ == '__main__':
         evaluated_models = []
         evaluated_model_scores = []
 
-        for model_name, model_params in zip(model_names, model_params):
-            model_scores = evaluate(model_name, dataset_name, model_params)
+        for model_name, params in zip(model_names, model_params):
+            model_scores = evaluate(model_name, dataset_name, params)
             evaluated_model_scores.append(model_scores)
             evaluated_models.append(model_name)
 
