@@ -14,7 +14,8 @@ from keep import TopicRank
 from keep import TopicalPageRank
 from keep import YAKE
 
-from evaluation.embedrank_transformers import EmbedRankTransformers as ERT
+from evaluation.embedrank_transformers import EmbedRankBERT
+from evaluation.embedrank_transformers import EmbedRankSentenceBERT
 from evaluation.embedrank import EmbedRank as ER
 from evaluation.sifrank import SIFRank as SR
 from evaluation.sifrankplus import SIFRankPlus as SRP
@@ -76,10 +77,15 @@ def keyword_extraction():
                 KEA_object = KEA(numOfKeyphrases, pathData, dataset_name, normalization)
                 KEA_object.ExtractKeyphrases(nFolds)
                 KEA_object.Convert2Trec_Eval(EvaluationStemming)
-            elif algorithm == 'EmbedRankTransformers':
-                ERT_object = ERT(numOfKeyphrases, pathData, dataset_name, normalization)
-                ERT_object.ExtractKeyphrases()
-                ERT_object.Convert2Trec_Eval(EvaluationStemming)
+            elif algorithm == 'EmbedRankBERT':
+                EmbedRankBERT_object = EmbedRankBERT(numOfKeyphrases, pathData, dataset_name, normalization)
+                EmbedRankBERT_object.ExtractKeyphrases()
+                EmbedRankBERT_object.Convert2Trec_Eval(EvaluationStemming)
+            elif algorithm == 'EmbedRankSentenceBERT':
+                EmbedRankSentenceBERT_object = EmbedRankSentenceBERT(numOfKeyphrases, pathData, dataset_name,
+                                                                     normalization)
+                EmbedRankSentenceBERT_object.ExtractKeyphrases()
+                EmbedRankSentenceBERT_object.Convert2Trec_Eval(EvaluationStemming)
             elif algorithm == 'EmbedRank':
                 ER_object = ER(numOfKeyphrases, pathData, dataset_name, normalization)
                 ER_object.ExtractKeyphrases()
@@ -135,9 +141,9 @@ if __name__ == '__main__':
     ListOfDatasets = ['Inspec', 'SemEval2017']
 
     # ListOfAlgorithms = ['RAKE', 'YAKE', 'MultiPartiteRank', 'TopicalPageRank', 'TopicRank', 'SingleRank', 'TextRank',
-    #                    'KPMiner', 'TFIDF', 'KEA', 'EmbedRank', 'EmbedRankTransformers']
+    #                    'KPMiner', 'TFIDF', 'KEA', 'EmbedRank', 'SIFRank', 'SIFRankPlus', 'EmbedRankBERT', 'EmbedRankSentenceBERT']
 
-    ListOfAlgorithms = ['SIFRank', 'SIFRankPlus']
+    ListOfAlgorithms = ['EmbedRankSentenceBERT']
 
     pathData = 'data'
     pathOutput = pathData + "/conversor/output/"

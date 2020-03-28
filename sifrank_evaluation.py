@@ -67,7 +67,7 @@ class EmbedRankWrapper:
 
 class EmbedRankTransformersWrapper:
     def __init__(self, config_path=None):
-        self.conf_path = config_path or 'evaluation/config/keyword_extractor_config.json'
+        self.conf_path = config_path or 'evaluation/config/embedrank_bert_as_a_service.json'
         self.model = init_keyword_extractor(read_json(self.conf_path))
 
     def run(self, text, top_n=15):
@@ -91,10 +91,10 @@ class SIFRankWrapper:
 
 
 def get_model(model_name, **kwargs):
-    if model_name == 'EmbedRankTransformers':
-        return EmbedRankTransformersWrapper(**kwargs)
-    elif model_name == 'EmbedRank':
+    if model_name == 'EmbedRank':
         return EmbedRankWrapper(**kwargs)
+    elif 'EmbedRank' in model_name:
+        return EmbedRankTransformersWrapper(**kwargs)
     elif model_name == 'SIFRank' or 'SIFRankPlus':
         return SIFRankWrapper(**kwargs)
 
@@ -197,14 +197,16 @@ def evaluate(model_name, dataset_name, model_kwargs):
 
 if __name__ == '__main__':
     model_names = [
-        "EmbedRankTransformers",
+        "EmbedRankBERT",
+        "EmbedRankSentenceBERT",
         "EmbedRank",
         "SIFRank",
         "SIFRankPlus"
     ]
 
     model_params = [
-        {"config_path": 'evaluation/config/keyword_extractor_config.json'},
+        {"config_path": 'evaluation/config/embedrank_bert_as_a_service.json'},
+        {"config_path": 'evaluation/config/embedrank_sentence_bert.json'},
         {"url": "http://0.0.0.0:5000"},
         {"url": "http://0.0.0.0:5001/sifrank"},
         {"url": "http://0.0.0.0:5001/sifrankplus"}

@@ -11,3 +11,5 @@ seaborn==0.10.0
 tensorflow==1.15.2
 tensorflow-estimator==1.15.1
 spacy-stanfordnlp==0.1.3
+sentence-transformers==0.2.5.1
+

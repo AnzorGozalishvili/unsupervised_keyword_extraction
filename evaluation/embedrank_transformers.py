@@ -7,7 +7,7 @@ from keyword_extraction.helpers import init_keyword_extractor
 
 
 class EmbedRankTransformers(object):
-    def __init__(self, numOfKeywords, pathData, dataset_name, normalization):
+    def __init__(self, numOfKeywords, pathData, dataset_name, normalization, model=None):
         self.__lan = getlanguage(pathData + "/Datasets/" + dataset_name)
         self.__numOfKeywords = numOfKeywords
         self.__dataset_name = dataset_name
@@ -15,12 +15,11 @@ class EmbedRankTransformers(object):
         self.__pathData = pathData
         self.__pathToDFFile = self.__pathData + "/Models/Unsupervised/dfs/" + self.__dataset_name + '_dfs.gz'
         self.__pathToDatasetName = self.__pathData + "/Datasets/" + self.__dataset_name
-        self.__keywordsPath = self.__pathData + '/Keywords/EmbedRankTransformers/' + self.__dataset_name
+        self.__keywordsPath = self.__pathData + f'/Keywords/{self.__class__.__name__}/' + self.__dataset_name
         self.__outputPath = self.__pathData + "/conversor/output/"
-        self.__algorithmName = "EmbedRankTransformers"
+        self.__algorithmName = self.__class__.__name__
 
-        # initialize EmbedRankTransformers object
-        self.model = init_keyword_extractor(read_json('evaluation/config/keyword_extractor_config.json'))
+        self.model = model
 
     def LoadDatasetFiles(self):
         # Gets all files within the dataset fold
@@ -77,3 +76,19 @@ class EmbedRankTransformers(object):
     def Convert2Trec_Eval(self, EvaluationStemming=False):
         Convert2TrecEval(self.__pathToDatasetName, EvaluationStemming, self.__outputPath, self.__keywordsPath,
                          self.__dataset_name, self.__algorithmName)
+
+
+class EmbedRankBERT(EmbedRankTransformers):
+    def __init__(self, numOfKeywords, pathData, dataset_name, normalization):
+        super().__init__(numOfKeywords, pathData, dataset_name, normalization)
+        self.__keywordsPath = self.__pathData + f'/Keywords/{self.__class__.__name__}/' + self.__dataset_name
+        self.__algorithmName = self.__class__.__name__
+        self.model = init_keyword_extractor(read_json('evaluation/config/embedrank_bert_as_a_service.json'))
+
+
+class EmbedRankSentenceBERT(EmbedRankTransformers):
+    def __init__(self, numOfKeywords, pathData, dataset_name, normalization):
+        super().__init__(numOfKeywords, pathData, dataset_name, normalization)
+        self.__keywordsPath = self.__pathData + f'/Keywords/{self.__class__.__name__}/' + self.__dataset_name
+        self.__algorithmName = self.__class__.__name__
+        self.model = init_keyword_extractor(read_json('evaluation/config/embedrank_sentence_bert.json'))

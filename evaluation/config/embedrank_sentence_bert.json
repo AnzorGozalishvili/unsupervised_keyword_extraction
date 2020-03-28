@@ -1,0 +1,36 @@
+{
+  "name": "EmbedRankSentenceBERT",
+  "class": "KeywordExtractor",
+  "encoder": {
+    "class": "SentenceTransformer",
+    "kwargs": {
+      "model_name_or_path": "bert-base-nli-stsb-mean-tokens"
+    }
+  },
+  "nlp": {
+    "name": "spacy",
+    "model_name": "en_core_web_sm"
+  },
+  "extractor": {
+    "class": "PhraseExtractor",
+    "kwargs": {
+      "grammar": "GRAMMAR1",
+      "np_method": "GRAMMAR",
+      "np_tags": "NLTK",
+      "stopwords": "NLTK"
+    }
+  },
+  "embedding": {
+    "class": "NaiveEmbedding",
+    "kwargs": {}
+  },
+  "rank": {
+    "class": "EmbedRank",
+    "kwargs": {
+      "emb_method": "NAIVE",
+      "mmr_beta": 0.55,
+      "top_n": 15,
+      "alias_threshold": 0.8
+    }
+  }
+}

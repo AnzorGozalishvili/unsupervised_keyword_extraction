@@ -1,5 +1,5 @@
 {
-  "name": "EmbedRankTransformer1",
+  "name": "EmbedRankBERT",
   "class": "KeywordExtractor",
   "encoder": {
     "class": "BertClient",

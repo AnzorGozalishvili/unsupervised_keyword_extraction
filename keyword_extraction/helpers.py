@@ -1,4 +1,5 @@
-import bert_serving.client as encoders
+import bert_serving.client as bert_as_a_service_encoders
+from sentence_transformers import SentenceTransformer
 import spacy
 import stanfordnlp
 from spacy_stanfordnlp import StanfordNLPLanguage
@@ -21,6 +22,26 @@ def init_nlp(config):
         return StanfordNLPLanguage(stanfordnlp.Pipeline(lang=config.get('model_name')))
 
 
+def init_encoder(config):
+    if hasattr(bert_as_a_service_encoders, config.get('class')):
+        return getattr(bert_as_a_service_encoders, config.get('class'))(
+            **config.get('kwargs')
+        )
+    elif config.get('class') == "SentenceTransformer":
+        if config.get('kwargs', {}).get("model_name_or_path") in [
+            "bert-base-nli-stsb-mean-tokens",
+            "bert-large-nli-stsb-mean-tokens",
+            "roberta-base-nli-stsb-mean-tokens",
+            "roberta-large-nli-stsb-mean-tokens",
+            "distilbert-base-nli-stsb-mean-tokens"
+        ]:
+            return SentenceTransformer(**config.get('kwargs'))
+        else:
+            raise ValueError(f"Incorrect SentenceTransformer configuration: {config}")
+    else:
+        raise ValueError(f"Incorrect Encoder configurations: {config}")
+
+
 def init_keyword_extractor(config):
     nlp_config = config.get('nlp')
     encoder_config = config.get('encoder')
@@ -30,9 +51,7 @@ def init_keyword_extractor(config):
 
     nlp = init_nlp(nlp_config)
 
-    encoder = getattr(encoders, encoder_config.get('class'))(
-        **encoder_config.get('kwargs')
-    )
+    encoder = init_encoder(encoder_config)
 
     extractor = getattr(extractors, extractor_config.get('class'))(
         **{"nlp": nlp, **extractor_config.get('kwargs')}
