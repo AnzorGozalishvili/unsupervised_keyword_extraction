@@ -45,6 +45,10 @@ def save_scores(scores, path, format='csv'):
             for dataset_name, scores_table in scores.items():
                 file.write(f"Evaluation results on \*\*{dataset_name}\*\*" + "\n")
                 file.write(scores_table.to_csv() + "\n")
+        elif format == 'markdown':
+            for dataset_name, scores_table in scores.items():
+                file.write(f"Evaluation results on \*\*{dataset_name}\*\*" + "\n")
+                file.write(scores_table.to_markdown() + "\n")
         elif format == 'json':
             scores_dict = {
                 dataset_name: scores.to_dict(orient='index') for dataset_name, scores in scores.items()
@@ -219,7 +223,7 @@ if __name__ == '__main__':
     ]
 
     scores_path = "sifrank_eval_results.csv"
-    scores_format = "csv"
+    scores_format = "markdown"
 
     scores = {}
 
