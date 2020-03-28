@@ -54,11 +54,11 @@ def save_scores(scores, path, format='csv'):
 
 class EmbedRankWrapper:
     def __init__(self, url=None):
-        self.url = url or "http://0.0.0.0:5000"
+        self.url = url or "http://0.0.0.0:5000/"
 
     def run(self, text, top_n=15):
-        url = f"{self.url}?q={text}&n={top_n}"
-        result = requests.get(url)
+        data = {"text": text, "n": top_n}
+        result = requests.post(self.url, json=data)
         content = json.loads(result.content)
         keywords = [(keyword, score) for keyword, score in zip(content[0], content[1])]
 
@@ -71,7 +71,7 @@ class EmbedRankTransformersWrapper:
         self.model = init_keyword_extractor(read_json(self.conf_path))
 
     def run(self, text, top_n=15):
-        keywords, relevance = self.model.run(text)
+        keywords, relevance = self.model.run(text, )
         keywords = [(keyword, score) for (keyword, _, _), score in zip(keywords, relevance)]
 
         return keywords
@@ -79,11 +79,11 @@ class EmbedRankTransformersWrapper:
 
 class SIFRankWrapper:
     def __init__(self, url=None):
-        self.url = url or "http://0.0.0.0:5001"
+        self.url = url or "http://0.0.0.0:5001/"
 
     def run(self, text, top_n=15):
-        url = f"{self.url}?q={text}&n={top_n}"
-        result = requests.get(url)
+        data = {"text": text, "n": top_n}
+        result = requests.post(self.url, json=data)
         content = json.loads(result.content)
         keywords = [(keyword, score) for keyword, score in zip(content[0], content[1])]
 
