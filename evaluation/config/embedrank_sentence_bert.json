@@ -4,7 +4,7 @@
   "encoder": {
     "class": "SentenceTransformer",
     "kwargs": {
-      "model_name_or_path": "bert-base-nli-stsb-mean-tokens"
+      "model_name_or_path": "bert-large-nli-stsb-mean-tokens"
     }
   },
   "nlp": {
